@@ -22,3 +22,25 @@ GildedRose/bin/Debug/net8.0/GildedRose 10
 ``` cmd
 dotnet test
 ```
+
+# Test Strategy
+
+## Testing Approach
+
+### 1. Unit Tests (GildedRoseTest.cs)
+We test each item type separately:
+
+- **Normal Items**: Basic quality decrease
+- **Aged Brie**: Quality increases with age
+- **Sulfuras**: Never changes
+- **Backstage Passes**: Quality changes based on concert date
+
+We use [Theory] with [InlineData] for common rules across items:
+- SellIn decrease
+- Quality limits (0-50)
+
+### 2. Approval Tests (ApprovalTest.cs)
+Maintains a "snapshot" of system behavior over 30 days to catch unexpected changes during refactoring
+
+## Challenges
+- Handling many item/day combinations
