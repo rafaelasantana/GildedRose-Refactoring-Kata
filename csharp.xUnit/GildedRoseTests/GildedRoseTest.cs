@@ -192,4 +192,55 @@ public class GildedRoseTest
 
         Assert.Equal(50, Items[0].Quality);
     }
+    
+    [Theory]
+    [InlineData("Normal Item")]
+    [InlineData("Aged Brie")]
+    [InlineData("Backstage passes to a TAFKAL80ETC concert")]
+    public void CommonRules_SellInDecreasesByOne_ExceptSulfuras(string itemName)
+    {
+        IList<Item> Items = new List<Item> 
+        { 
+            new Item { Name = itemName, SellIn = 5, Quality = 10 }
+        };
+        var app = new GildedRose(Items);
+
+        app.UpdateQuality();
+
+        Assert.Equal(4, Items[0].SellIn);
+    }
+
+    [Theory]
+    [InlineData("Normal Item")]
+    [InlineData("Aged Brie")]
+    [InlineData("Backstage passes to a TAFKAL80ETC concert")]
+    public void CommonRules_QualityNeverNegative(string itemName)
+    {
+        IList<Item> Items = new List<Item> 
+        { 
+            new Item { Name = itemName, SellIn = 0, Quality = 0 }
+        };
+        var app = new GildedRose(Items);
+
+        app.UpdateQuality();
+
+        Assert.True(Items[0].Quality >= 0);
+    }
+
+    [Theory]
+    [InlineData("Normal Item")]
+    [InlineData("Aged Brie")]
+    [InlineData("Backstage passes to a TAFKAL80ETC concert")]
+    public void CommonRules_QualityNeverMoreThanFifty_ExceptSulfuras(string itemName)
+    {
+        IList<Item> Items = new List<Item> 
+        { 
+            new Item { Name = itemName, SellIn = 5, Quality = 50 }
+        };
+        var app = new GildedRose(Items);
+
+        app.UpdateQuality();
+
+        Assert.True(Items[0].Quality <= 50);
+    }
 }
