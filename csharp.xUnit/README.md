@@ -44,3 +44,15 @@ Maintains a "snapshot" of system behavior over 30 days to catch unexpected chang
 
 ## Challenges
 - Handling many item/day combinations
+
+# Refactoring Improvements
+### Isolate Responsibilities
+Each item type (Aged Brie, Backstage Pass, Sulfuras, etc.) has unique aging rules. 
+We place those rules into separate “strategy” classes. This reduces the deep nested if blocks and makes the code easier to follow.
+
+### Use the Strategy Pattern
+The UpdateQuality method now delegates to specialized update strategies instead of handling every case in one place. This makes it simpler to add new item types later without changing existing logic.
+
+### Simplify the Main Loop
+he main UpdateQuality loop focuses only on iterating through items and calling the correct update strategy. This single responsibility makes the GildedRose class more maintainable.
+
